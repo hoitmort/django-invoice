@@ -36,7 +36,7 @@ SIZE = getattr(settings, 'FRIENDLY_ID_SIZE', 10000000)
 
 # OPTIONAL PARAMETERS
 # This just means we don't start with the first number, to mix things up
-OFFSET = getattr(settings, 'FRIENDLY_ID_OFFSET', SIZE / 2 - 1)
+OFFSET = getattr(settings, 'FRIENDLY_ID_OFFSET', SIZE // 2 - 1)
 # Alpha numeric characters, only uppercase, no confusing values (eg 1/I,0/O,Z/2)
 # Remove some letters if you prefer more numbers in your strings
 # You may wish to remove letters that sound similar, to avoid confusion when a
@@ -65,14 +65,14 @@ def find_suitable_period():
     # low (eg 2) and the period is too small.
     # We would prefer it to be lower than the number of VALID_CHARS, but more
     # than say 4.
-    starting_point = len(VALID_CHARS) > 14 and len(VALID_CHARS)/2 or 13
-    for p in range(starting_point, 7, -1) \
-                + range(highest_acceptable_factor, starting_point+1, -1) \
+    starting_point = len(VALID_CHARS) > 14 and len(VALID_CHARS)//2 or 13
+    for p in list(range(starting_point, 7, -1)) \
+                + list(range(highest_acceptable_factor, starting_point+1, -1)) \
                 + [6,5,4,3,2]:
         if SIZE % p == 0:
             return p
-    raise Exception, "No valid period could be found for SIZE=%d.\n" \
-                     "Try avoiding prime numbers :-)" % SIZE
+    raise Exception("No valid period could be found for SIZE=%d.\n"
+                    "Try avoiding prime numbers :-)" % SIZE)
 
 # Set the period if it is missing
 if not PERIOD:
@@ -83,7 +83,7 @@ def perfect_hash(num):
     """ Translate a number to another unique number, using a perfect hash function.
         Only meaningful where 0 <= num <= SIZE.
     """
-    return ((num+OFFSET)*(SIZE/PERIOD)) % (SIZE+1) + 1
+    return ((num+OFFSET)*(SIZE//PERIOD)) % (SIZE+1) + 1
 
 
 def friendly_number(num):
@@ -101,7 +101,7 @@ def friendly_number(num):
                 or len(VALID_CHARS)**len(string) <= SIZE:
         # PREpend string (to remove all obvious signs of order)
         string = VALID_CHARS[num%len(VALID_CHARS)] + string
-        num = num/len(VALID_CHARS)
+        num = num//len(VALID_CHARS)
     return string
 
 

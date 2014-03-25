@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.platypus import Table
 from reportlab.lib.pagesizes import A4

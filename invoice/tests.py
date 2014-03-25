@@ -12,8 +12,6 @@ User = get_user_model()
 class InvoiceTestCase(TestCase):
     def setUp(self):
         usr = User.objects.create(username='test',
-                                  first_name='John',
-                                  last_name='Doe',
                                   email='example@example.com')
 
         country = Country.objects.create(name='TestCountry')
